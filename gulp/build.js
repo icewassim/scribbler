@@ -15,7 +15,7 @@ gulp.task('compile', function() {
   .transform("babelify", {
     presets: ["es2015"]
   })
-  .require('./app/js/app.js', {
+  .require('./src/app/index.module.js', {
     entry: true
   })
   .bundle()
