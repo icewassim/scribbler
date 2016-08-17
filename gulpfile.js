@@ -9,6 +9,6 @@ wrench.readdirSyncRecursive('./gulp').filter(function(file) {
   require('./gulp/' + file);
 });
 
-gulp.task('default',function(){
-	gulp.start("run-server");
-});
+// gulp.task('default',function(){
+// 	gulp.start("run-server");
+// });

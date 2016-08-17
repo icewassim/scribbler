@@ -1,22 +1,21 @@
 'use strict';
 
-let gulp = require('gulp'),
-//  eslint = require('eslint'),
+const gulp = require('gulp'),
+  eslint = require('gulp-eslint'),
   conf = require('./conf'),
-  //sourcemaps = require('gulp-sourcemaps'),
-  //wrench = require('wrench'),
+  source = require('vinyl-source-stream'),
+  browserify = require('browserify'),
   del = require('del'),
   uglify = require('gulp-uglify'),
-  concat = require('gulp-concat'),
-  tslint = require('gulp-tslint');
+  concat = require('gulp-concat');
 
 
-gulp.task('ts-compile', function() {
+gulp.task('compile', function() {
   return browserify()
   .transform("babelify", {
     presets: ["es2015"]
   })
-  .require('./app/app.js', {
+  .require('./app/js/app.js', {
     entry: true
   })
   .bundle()
@@ -24,12 +23,12 @@ gulp.task('ts-compile', function() {
   .pipe(gulp.dest('./dist/'));
 });
 
-//gulp.task('eslint', function() {
-//  return gulp.src('./app/**/*.js')
-//    .pipe(eslint())
-//    .pipe(eslint.format())
-//    .pipe(eslint.failAfterError());
-//});
+gulp.task('eslint', function() {
+  return gulp.src('./app/**/*.js')
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError());
+});
 
 gulp.task('compress', function() {
   return gulp.src(conf.paths.distAllJSFiles)
@@ -41,4 +40,4 @@ gulp.task('clean', function() {
   return del(['dist/**/*']);
 });
 
-gulp.task('build', ['clean', 'compile', 'sass']);
+gulp.task('build', ['eslint', 'clean', 'compile', 'sass']);
